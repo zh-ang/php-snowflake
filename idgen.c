@@ -31,8 +31,6 @@
 #include <stdint.h>
 
 #include "php.h"
-#include "TSRM/tsrm_config_common.h"
-#include "php_snowflake.h"
 
 #define TIMESTAMP_WIDTH 41
 #define TIMESTAMP_MASK ((1 << (TIME_WIDTH + 1)) - 1)
