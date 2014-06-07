@@ -107,6 +107,7 @@ int64_t sf_gen(long node_id, uint64_t epoch) {
             if (new.s.seq_bits == 0) {
                 // overflow
                 wait_till_next_ms();
+                now = current_time_ms();
                 continue;
             }
         } else {
