@@ -173,7 +173,7 @@ PHP_FUNCTION(snowflake_next_id)
     TSRMLS_FETCH();
 
     if (SNOWFLAKE_G(enabled) == 0) {
-        return 0;
+        RETURN_BOOL(0);
     }
 
 

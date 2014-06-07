@@ -78,6 +78,7 @@ static key_t shm_key;
 int sf_init() {
 
     shm_key = php_ini_opened_path ? ftok(php_ini_opened_path, 0x19881111) : 0x19881111;
+
     shm_id = shmget(shm_key, sizeof(shm_data_t), IPC_CREAT | 0600);
     if (shm_id < 0) {
         // trigger error
