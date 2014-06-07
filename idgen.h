@@ -24,7 +24,7 @@
 #include <stdint.h>
 
 int sf_init() ;
-int64_t sf_gen() ;
+int64_t sf_gen(long node_id, uint64_t epoch) ;
 int sf_close() ;
 
 #endif  /* IDGEN_H */

@@ -92,12 +92,16 @@ static void php_snowflake_init_globals(zend_snowflake_globals *snowflake_globals
  */
 PHP_MINIT_FUNCTION(snowflake)
 {
+    TSRMLS_FETCH();
     int ret = SUCCESS;
 
     REGISTER_INI_ENTRIES();
     if (sf_init() == FAILURE) {
         ret = FAILURE;
     }
+
+    SNOWFLAKE_G(enabled) = (ret == SUCCESS);
+
     return ret;
 }
 /* }}} */
@@ -106,6 +110,8 @@ PHP_MINIT_FUNCTION(snowflake)
  */
 PHP_MSHUTDOWN_FUNCTION(snowflake)
 {
+    TSRMLS_FETCH();
+    SNOWFLAKE_G(enabled) = 0;
     UNREGISTER_INI_ENTRIES();
     sf_close();
     return SUCCESS;
@@ -164,7 +170,14 @@ PHP_FUNCTION(confirm_snowflake_compiled)
 /* {{{ proto int snowflake_next_id() */
 PHP_FUNCTION(snowflake_next_id)
 {
-    int64_t ret = 1;//sf_gen();
+    TSRMLS_FETCH();
+
+    if (SNOWFLAKE_G(enabled) == 0) {
+        return 0;
+    }
+
+
+    int64_t ret = sf_gen(SNOWFLAKE_G(node_id), SNOWFLAKE_G(epoch));
     if (ret) {
         RETURN_LONG(ret);
     } else {
