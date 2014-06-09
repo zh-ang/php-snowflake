@@ -40,7 +40,6 @@ static int le_snowflake;
 const zend_function_entry snowflake_functions[] = {
     PHP_FE(snowflake_next_id,    NULL)
     PHP_FE(snowflake_explain,    NULL)
-    PHP_FE(confirm_snowflake_compiled,    NULL)        /* For testing, remove later. */
     PHP_FE_END    /* Must be the last line in snowflake_functions[] */
 };
 /* }}} */
@@ -151,22 +150,6 @@ PHP_MINFO_FUNCTION(snowflake)
 
 
 /* Every user-visible function in PHP should document itself in the source */
-/* {{{ proto string confirm_snowflake_compiled(string arg)
-   Return a string to confirm that the module is compiled in */
-PHP_FUNCTION(confirm_snowflake_compiled)
-{
-    char *arg = NULL;
-    int arg_len, len;
-    char *strg;
-
-    if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s", &arg, &arg_len) == FAILURE) {
-        return;
-    }
-
-    len = spprintf(&strg, 0, "Congratulations! You have successfully modified ext/%.78s/config.m4. Module %.78s is now compiled into PHP.", "snowflake", arg);
-    RETURN_STRINGL(strg, len, 0);
-}
-/* }}} */
 
 /* {{{ proto int snowflake_next_id() */
 PHP_FUNCTION(snowflake_next_id)
@@ -187,7 +170,7 @@ PHP_FUNCTION(snowflake_next_id)
 }
 /* }}} */
 
-/* {{{ proto int snowflake_explain() */
+/* {{{ proto int snowflake_explain(int id) */
 PHP_FUNCTION(snowflake_explain)
 {
     long id;

@@ -44,7 +44,6 @@ PHP_MINFO_FUNCTION(snowflake);
 
 PHP_FUNCTION(snowflake_next_id);
 PHP_FUNCTION(snowflake_explain);
-PHP_FUNCTION(confirm_snowflake_compiled);    /* For testing, remove later. */
 
 ZEND_BEGIN_MODULE_GLOBALS(snowflake)
     int enabled;
