@@ -31,27 +31,7 @@
 #include <stdint.h>
 
 #include "php.h"
-
-#define TIMESTAMP_WIDTH 41
-#define TIMESTAMP_MASK ((1 << (TIME_WIDTH + 1)) - 1)
-#define TIMESTAMP_OFFSET (SEQUENCE_WIDTH + NODE_ID_WIDTH)
-#define NODE_ID_WIDTH 10
-#define NODE_ID_MASK ((1 << (NODE_ID_WIDTH + 1)) - 1)
-#define NODE_ID_OFFSET (SEQUENCE_WIDTH)
-#define SEQUENCE_WIDTH 12
-#define SEQUENCE_MASK ((1 << (SEQUENCE_WIDTH + 1)) - 1)
-#define SEQUENCE_OFFSET 0
-
-typedef union _snowflake_t {
-    struct {
-        unsigned seq_bits:12;
-        unsigned node_bits:10;
-        unsigned time_low_bits:10;
-        unsigned time_high_bits:31;
-        unsigned sign_bit:1;
-    } s;
-    int64_t id;
-} snowflake_t;
+#include "idgen.h"
 
 typedef struct _shm_data_t {
     snowflake_t last_id;

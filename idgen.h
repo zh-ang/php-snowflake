@@ -26,6 +26,29 @@
 int sf_init() ;
 int64_t sf_gen(long node_id, uint64_t epoch) ;
 int sf_close() ;
+int sf_explain(int64_t id, long node_id, uint64_t epoch) ;
+
+#define TIMESTAMP_WIDTH 41
+#define TIMESTAMP_MASK ((1 << (TIME_WIDTH + 1)) - 1)
+#define TIMESTAMP_OFFSET (SEQUENCE_WIDTH + NODE_ID_WIDTH)
+#define NODE_ID_WIDTH 10
+#define NODE_ID_MASK ((1 << (NODE_ID_WIDTH + 1)) - 1)
+#define NODE_ID_OFFSET (SEQUENCE_WIDTH)
+#define SEQUENCE_WIDTH 12
+#define SEQUENCE_MASK ((1 << (SEQUENCE_WIDTH + 1)) - 1)
+#define SEQUENCE_OFFSET 0
+
+typedef union _snowflake_t {
+    struct {
+        unsigned seq_bits:12;
+        unsigned node_bits:10;
+        unsigned time_low_bits:10;
+        unsigned time_high_bits:31;
+        unsigned sign_bit:1;
+    } s;
+    int64_t id;
+} snowflake_t;
+
 
 #endif  /* IDGEN_H */
 

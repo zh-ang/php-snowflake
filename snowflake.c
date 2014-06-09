@@ -39,6 +39,7 @@ static int le_snowflake;
  */
 const zend_function_entry snowflake_functions[] = {
     PHP_FE(snowflake_next_id,    NULL)
+    PHP_FE(snowflake_explain,    NULL)
     PHP_FE(confirm_snowflake_compiled,    NULL)        /* For testing, remove later. */
     PHP_FE_END    /* Must be the last line in snowflake_functions[] */
 };
@@ -183,6 +184,27 @@ PHP_FUNCTION(snowflake_next_id)
     } else {
         RETURN_BOOL(0);
     }
+}
+/* }}} */
+
+/* {{{ proto int snowflake_explain() */
+PHP_FUNCTION(snowflake_explain)
+{
+    long id;
+    snowflake_t tmp;
+    double timestamp;
+
+    if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "l", &id) == FAILURE) {
+        return;
+    }
+
+    tmp.id = id;
+    timestamp = ((tmp.id >> TIMESTAMP_OFFSET) + SNOWFLAKE_G(epoch) + 0.0) / 1000;
+
+    array_init(return_value);
+    add_assoc_double(return_value, "timestamp", timestamp);
+    add_assoc_long(return_value, "node_id", tmp.s.node_bits);
+    add_assoc_long(return_value, "sequence", tmp.s.seq_bits);
 }
 /* }}} */
 
