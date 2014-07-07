@@ -101,18 +101,18 @@ PHP_MINIT_FUNCTION(snowflake)
     }
 
     if (SNOWFLAKE_G(node_id) <= 0) {
-        php_error_docref(NULL TSRMLS_CC, E_NOTICE, "\"snowflake.node_id\" must be set greater than zero");
+        php_error_docref(NULL TSRMLS_CC, E_WARNING, "\"snowflake.node_id\" must be set greater than zero");
         ret = FAILURE;
     } else if (SNOWFLAKE_G(node_id) >= (1<<NODE_ID_OFFSET)) {
-        php_error_docref(NULL TSRMLS_CC, E_NOTICE, "\"snowflake.node_id\" must be set smaller than 4096");
+        php_error_docref(NULL TSRMLS_CC, E_WARNING, "\"snowflake.node_id\" must be set smaller than 4096");
         ret = FAILURE;
     }
 
     if (SNOWFLAKE_G(epoch) < 0) {
-        php_error_docref(NULL TSRMLS_CC, E_NOTICE, "\"snowflake.node_id\" must be set greater than zero");
+        php_error_docref(NULL TSRMLS_CC, E_WARNING, "\"snowflake.epoch\" must be set greater than zero");
         return FAILURE;
     } else if (SNOWFLAKE_G(epoch) / 1000 > time (NULL)) {
-        php_error_docref(NULL TSRMLS_CC, E_NOTICE, "\"snowflake.node_id\" must be set earlier before now");
+        php_error_docref(NULL TSRMLS_CC, E_WARNING, "\"snowflake.epoch\" must be set earlier before now");
         return FAILURE;
     }
 
