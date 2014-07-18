@@ -103,8 +103,8 @@ PHP_MINIT_FUNCTION(snowflake)
     if (SNOWFLAKE_G(node_id) <= 0) {
         php_error_docref(NULL TSRMLS_CC, E_WARNING, "\"snowflake.node_id\" must be set greater than zero");
         ret = FAILURE;
-    } else if (SNOWFLAKE_G(node_id) >= (1<<NODE_ID_OFFSET)) {
-        php_error_docref(NULL TSRMLS_CC, E_WARNING, "\"snowflake.node_id\" must be set smaller than 4096");
+    } else if (SNOWFLAKE_G(node_id) >= (1<<NODE_ID_WIDTH)) {
+        php_error_docref(NULL TSRMLS_CC, E_WARNING, "\"snowflake.node_id\" must be set smaller than %d", (1<<NODE_ID_WIDTH));
         ret = FAILURE;
     }
 
