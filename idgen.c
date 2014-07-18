@@ -51,15 +51,14 @@ static inline void wait_till_next_ms() {
 
 PHPAPI extern char *php_ini_opened_path;
 
-static int shm_id;
 static shm_data_t *shm_data;
-static key_t shm_key;
 
 int sf_init() {
 
-    shm_key = php_ini_opened_path ? ftok(php_ini_opened_path, 0x19881111) : 0x19881111;
+    int shm_id;
 
-    shm_id = shmget(shm_key, sizeof(shm_data_t), IPC_CREAT | 0600);
+    shm_id = shmget(IPC_PRIVATE, sizeof(shm_data_t), IPC_CREAT | 0600);
+
     if (shm_id < 0) {
         // trigger error
         return FAILURE;
