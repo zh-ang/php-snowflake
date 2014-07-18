@@ -1,5 +1,8 @@
 --TEST--
 Check for snowflake presence
+--INI--
+snowflake.node_id=1
+snowflake.epoch=0
 --SKIPIF--
 <?php if (!extension_loaded("snowflake")) print "skip"; ?>
 --FILE--
